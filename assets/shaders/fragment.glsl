@@ -1,15 +1,10 @@
+// Very basic fragment shader that just uses a single colour
 #version 300 es
 
 precision mediump float;
-
-in vec2 otexCoords;
-
-uniform vec4 color;
-uniform sampler2D tex;
-
-out vec4 ocolor;
+out vec4 fragColor;
 
 void main()
 {
-    ocolor = texture(tex, otexCoords);
+    fragColor = vec4(1.0f, 0.2f, 0.2f, 1.0f);
 }

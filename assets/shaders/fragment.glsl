@@ -1,5 +1,5 @@
-// Very basic fragment shader that just uses a single colour
 #version 300 es
+// Extremely simple fragment shader
 
 precision mediump float;
 out vec4 fragColor;

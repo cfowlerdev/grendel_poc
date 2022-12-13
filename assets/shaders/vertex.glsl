@@ -1,5 +1,5 @@
-// Very basic vertex shader that just takes x,y,z coords of a vertex
 #version 300 es
+// Extremely simple vertex shader
 
 layout (location = 0) in vec3 aPos;
 

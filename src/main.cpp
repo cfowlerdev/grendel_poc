@@ -4,10 +4,12 @@
 #define EGL_EGLEXT_PROTOTYPES
 #include <GL/gl.h>
 #include <GLFW/glfw3.h>
+#include "window.h"
 #include "program.h"
 #include "shader.h"
 
-GLFWwindow* window;
+// GLFWwindow* window;
+Window *window;
 unsigned int VBO, VAO, EBO;
 Program* defaultShaderProgram;
 
@@ -50,7 +52,7 @@ void main_loop()
     
 
     // Last: swap buffers
-    glfwSwapBuffers(window);
+    glfwSwapBuffers(window->windowId);
     glfwPollEvents();
 }
 
@@ -71,15 +73,12 @@ int main(int argc, char **argv)
     // ================================================
     // WINDOW
     // ================================================
-    window = glfwCreateWindow(800, 600, "LearnOpenGL", NULL, NULL);
-    if (window == NULL)
+    window = new Window("Grendel POC", 800, 600);
+    if(window->windowId == NULL)
     {
-        std::cout << "Failed to create GLFW window" << std::endl;
-        glfwTerminate();
+        std::cout << "ERROR : unable to create window" << std::endl;
         return -1;
     }
-    glfwMakeContextCurrent(window);
-    
     glViewport(0, 0, 800, 600);
 
     // ================================================

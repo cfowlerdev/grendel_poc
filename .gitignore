@@ -1,0 +1,5 @@
+build
+.vscode
+libs/glm
+libs/STB_IMAGE
+libs/tinyobjloader

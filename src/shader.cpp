@@ -22,7 +22,7 @@ Shader::Shader(const std::string& p_filename, GLenum shaderType)
         glGetShaderiv(shaderId, GL_INFO_LOG_LENGTH, &logLen);
         GLchar *log = new GLchar[logLen + 1];
         glGetShaderInfoLog(shaderId, logLen + 1, nullptr, log);
-        std::cerr << "ERROR : Unable to compile shader : " << p_filename << " - " << std::string(log) << std::endl;
+        std::cout << "ERROR : Unable to compile shader : " << p_filename << " - " << std::string(log) << std::endl;
         return;
     }
 
@@ -38,7 +38,7 @@ std::string Shader::loadGlslFile(const std::string& p_filename)
     std::ifstream file(p_filename, std::ios::in | std::ios::binary);
     if(!file)
     {
-        std::cerr << "ERROR : unable to load shader file : " << p_filename << std::endl;
+        std::cout << "ERROR : unable to load shader file : " << p_filename << std::endl;
         // TODO: proper error handling!
         return "";
     }

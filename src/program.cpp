@@ -23,7 +23,7 @@ Program::Program(std::vector<Shader *> shaders)
         glGetProgramiv(programId, GL_INFO_LOG_LENGTH, &logLen);
         GLchar *log = new GLchar[logLen + 1];
         glGetProgramInfoLog(programId, logLen + 1, nullptr, log);
-        std::cerr << "ERROR : Unable to link program : " << std::to_string(programId) << " - " << std::string(log) << std::endl;
+        std::cout << "ERROR : Unable to link program : " << std::to_string(programId) << " - " << std::string(log) << std::endl;
         return;
     }
 

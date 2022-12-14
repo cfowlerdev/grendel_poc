@@ -7,11 +7,15 @@
 #include "window.h"
 #include "program.h"
 #include "shader.h"
+#include "vertexbufferlayout.h"
+#include "vertexarray.h"
+#include "vertexbuffer.h"
+#include "indexbuffer.h"
 
 // GLFWwindow* window;
 Window *window;
-unsigned int VBO, VAO, EBO;
 Program* defaultShaderProgram;
+VertexArray *vertexArray;
 
 // Triangle
 float triangle_vertices[] = {
@@ -46,7 +50,7 @@ void main_loop()
 
     // draw triangle
     defaultShaderProgram->bind();
-    glBindVertexArray(VAO);
+    glBindVertexArray(vertexArray->getId());
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
     
@@ -96,43 +100,17 @@ int main(int argc, char **argv)
     // VERTEX DATA
     // ================================================
     std::cout << "- Vertex data" << std::endl;
-    
-    // Create vertex array and vertex buffer
-    glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
-    glGenBuffers(1, &EBO);
-    
-    // Bind vertex array object
-    glBindVertexArray(VAO);
+    vertexArray = new VertexArray();
+    vertexArray->bind();
+    VertexBuffer *vertexBuffer = new VertexBuffer(vertices, sizeof(vertices));
+    vertexBuffer->bind();
+    IndexBuffer *indexBuffer = new IndexBuffer(indices, sizeof(indices));
+    indexBuffer->bind();
+    VertexBufferLayout *layout = new VertexBufferLayout();
+    layout->push<float>(3);
 
-    // Bind and set vertex buffers
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-    
-    // Index array
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+    vertexArray->addBuffer(*vertexBuffer, *layout);
 
-    // Define how vertex data should be interpreted
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *) 0);
-    glEnableVertexAttribArray(0);
-
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-    // You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
-    // VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
-    glBindVertexArray(0);
-
-
-    // ================================================
-    // VERTEX ATTRIBUTES
-    // ================================================
-    std::cout << "- Vertex attributes" << std::endl;
-
-    // Tell OpenGL how to interpret vertex data
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);     
-    
     // ================================================
     // ENTER RENDER LOOP
     // ================================================
